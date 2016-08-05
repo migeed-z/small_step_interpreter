@@ -1,0 +1,2 @@
+class InterpreterError(BaseException):
+    pass
