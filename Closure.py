@@ -3,7 +3,7 @@ from Scope import Scope
 
 class Closure(expr):
     def __init__(self, lambda_expr, scope):
-
+        super(Closure, self).__init__()
         self.lambda_expr = lambda_expr
         self.scope = scope
 
@@ -18,15 +18,14 @@ class Closure(expr):
         return body, self.scope
 
 
-
-
-
-
-
-
-
-
-
+    def apply(self, params, k):
+        """
+        Applies params to lambda expr
+        :param params:
+        :param k:
+        :return:
+        """
+        pass
 
 
 
