@@ -1,11 +1,11 @@
 """
 Step.py
-(expr, env, cont) -> (expr', env', cont')
+a config is: (expr, env, cont)
+
+config -> config
+
 """
 from ast import Call, Lambda, Name, Num, NameConstant, Expr, IfExp
-from Cont.Continuation import Continuation
-from Cont.Earg import Earg
-from Cont.Call import Call
 
 # from Closure import Closure
 from InterpreterError import InterpreterError
@@ -28,25 +28,16 @@ def step(expr, env, cont):
 
         #Num
         if isinstance(value, Num):
-            return Continuation(value.n, env, cont)
+            print("Num")
 
-        #restore env. work on new expr.
         #Var
         elif isinstance(value, Name):
             name = value.id
-            #Closure
-            val = env.get(name)
-            if not val:
-                raise ValueError("no value for key %s" % name)
-            else:
-                return Continuation(val, env, cont)
-
-
-            #restore env. work on new expr.
+            print("Variable")
 
         #Bool
         elif isinstance(value, NameConstant):
-            return Continuation(value.value, env, cont)
+            print( "Bool")
 
         #Lambda
         elif isinstance(value, Lambda):
@@ -58,9 +49,7 @@ def step(expr, env, cont):
 
         #Call
         elif isinstance(value, Call):
-            pass
-            # return step(value, env, k.extend(None, Earg()))
-
+            print("Call")
 
     else:
         raise InterpreterError("Not a valid python program")

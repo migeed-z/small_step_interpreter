@@ -14,8 +14,4 @@
 
 
 
-
-def Add(x, y):
-    return x + y
-
-Add(1, 1)
+1

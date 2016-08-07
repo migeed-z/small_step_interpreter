@@ -12,7 +12,6 @@ Receives a file name from and produces a python AST.
 from Scope import Scope
 from Step import step
 from ast import ImportFrom, Expr, dump
-from Cont.Done import Done
 
 def interpret(expr):
     """
@@ -25,7 +24,7 @@ def interpret(expr):
     print(dump(node))
 
     env = Scope(())
-    cont = Done
+    cont = None
 
     return step(node, env, cont)
 
