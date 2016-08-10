@@ -10,10 +10,10 @@
 - bool
 
 **Syntax**
- - if: exp if test else orelse
- - call: (lambda param: body)(arg)
- - var: x
- - lambda: lambda param: body
+ - exp if test else orelse
+ - (lambda param: body)(arg)
+ - x
+ - lambda param: body
  - R
  - True/ False
 
