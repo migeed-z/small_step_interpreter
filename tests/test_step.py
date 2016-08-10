@@ -8,6 +8,7 @@ from Eif import Eif
 from Closure import Closure
 
 
+
 class TestStep(unittest.TestCase):
 
     def test_num_no_cont(self):
@@ -57,8 +58,12 @@ class TestStep(unittest.TestCase):
         env = Scope([])
         k = Done()
         val = step(lamb_expr, env, k)[0]
-        clos = Closure(lamb_expr, env)
-        self.assertEqual(val, clos)
+
+        self.assert_(isinstance(val, Closure))
+        expr = val.lambda_expr
+        self.assertEqual(expr.args.args[0].arg, 'x')
+        self.assertEqual(expr.body.n, 3)
+
 
 if __name__ == '__main__':
     unittest.main()

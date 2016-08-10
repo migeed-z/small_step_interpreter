@@ -18,15 +18,3 @@ class Closure(expr):
         return body, self.scope
 
 
-    def apply(self, params, k):
-        """
-        Applies params to lambda expr
-        :param params:
-        :param k:
-        :return:
-        """
-        pass
-
-
-
-

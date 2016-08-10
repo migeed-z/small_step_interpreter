@@ -39,3 +39,6 @@ class Scope:
                 return val
             else:
                 return old_self.get(key)
+
+    def __eq__(self, other):
+        return isinstance(other, Scope) and self.defs == other.defs
