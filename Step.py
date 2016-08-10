@@ -48,7 +48,10 @@ def step(expr, env, cont):
         #Lambda
         elif isinstance(value, Lambda):
             val = Closure(value, env)
-            return cont.apply(val)
+            if not isinstance(cont, Done):
+                return cont.apply(val)
+            else:
+                return val, env, cont
 
         #Call
         elif isinstance(value, Call):

@@ -3,11 +3,11 @@ import ast
 from Step import *
 from Scope import Scope
 from Done import Done
+from Earg import Earg
 from Eif import Eif
 
 
 class TestStep(unittest.TestCase):
-
 
     def test_num_no_cont(self):
         num_expr = ast.Expr(value=Num(3))
@@ -42,6 +42,20 @@ class TestStep(unittest.TestCase):
         new_cont = val_tuple[2]
         self.assertEqual(val.n, 4)
         self.assertEqual(new_cont, Done())
+
+    def test_variable(self):
+        var_expr = ast.Expr(value=Name(id='x', ctx=ast.Load()))
+        env = Scope([])
+        env.extend('x', 3)
+        k = Done()
+        val = step(var_expr, env, k)
+        self.assertEqual(val.n, 3)
+
+    def test_lambda(self):
+        lamb_expr = ast.Expr(value=Lambda(args=ast.arguments(args=[ast.arg(arg='x')]), body=Num(n=3)))
+        env = Scope([])
+        k = Done()
+        pass
 
 if __name__ == '__main__':
     unittest.main()
