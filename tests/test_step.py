@@ -5,6 +5,7 @@ from Scope import Scope
 from Done import Done
 from Earg import Earg
 from Eif import Eif
+from Closure import Closure
 
 
 class TestStep(unittest.TestCase):
@@ -51,12 +52,13 @@ class TestStep(unittest.TestCase):
         val = step(var_expr, new_env, k)[0]
         self.assertEqual(val.n, 3)
 
-
     def test_lambda(self):
         lamb_expr = ast.Expr(value=Lambda(args=ast.arguments(args=[ast.arg(arg='x')]), body=Num(n=3)))
         env = Scope([])
         k = Done()
-        pass
+        val = step(lamb_expr, env, k)[0]
+        clos = Closure(lamb_expr, env)
+        self.assertEqual(val, clos)
 
 if __name__ == '__main__':
     unittest.main()
