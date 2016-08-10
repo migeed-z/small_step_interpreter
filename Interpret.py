@@ -13,6 +13,7 @@ from Scope import Scope
 from Step import step
 from ast import ImportFrom, Expr, dump
 from Done import Done
+from Closure import Closure
 
 def interpret(expr):
     """
@@ -22,16 +23,19 @@ def interpret(expr):
     """
 
     node = expr.body[0]
-    print(dump(node))
-
     env = Scope(())
     cont = Done()
 
-    return step(node, env, cont)
+    while not is_value(node) or not isinstance(cont, Done):
+        node, env, cont = step(node, env, cont)
+        if is_value(node):
+            cont.apply(node)
+    return node
 
-    # while not is_value(node):
-    #     node, env = step(node, env)
-    # return node
-
+def is_value(node):
+    return isinstance(node, Expr) and \
+           (isinstance(node.value, Num) or
+            isinstance(node.value, NameConstant) or
+            isinstance(node.value, Closure))
 
 

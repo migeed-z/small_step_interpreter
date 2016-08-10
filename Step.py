@@ -25,16 +25,13 @@ def step(expr, env, cont):
     :param cont: Continuation
     :return: (Expr, Scope, Continuation)
     """
-    value = expr.value
+
     if isinstance(expr, Expr):
+        value = expr.value
 
         #Num & Bool
         if isinstance(value, Num) or isinstance(value, NameConstant):
-            if not isinstance(cont, Done):
-                return cont.apply(expr)
-
-            else:
-                return expr, env, cont
+            return expr, env, cont
 
         #Var
         elif isinstance(value, Name):
@@ -48,10 +45,7 @@ def step(expr, env, cont):
         #Lambda
         elif isinstance(value, Lambda):
             val = Closure(value, env)
-            if not isinstance(cont, Done):
-                return cont.apply(val)
-            else:
-                return val, env, cont
+            return val, env, cont
 
         #Call
         elif isinstance(value, Call):
@@ -67,5 +61,5 @@ def step(expr, env, cont):
             return test, env, Eif(body, orelse, env, cont)
 
     else:
-        raise InterpreterError("Not a valid python program")
+        raise InterpreterError("Not a valid program")
 
