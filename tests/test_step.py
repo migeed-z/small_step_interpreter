@@ -58,11 +58,32 @@ class TestStep(unittest.TestCase):
         env = Scope([])
         k = Done()
         val = step(lamb_expr, env, k)[0]
-
         self.assert_(isinstance(val, Closure))
         expr = val.lambda_expr
         self.assertEqual(expr.args.args[0].arg, 'x')
         self.assertEqual(expr.body.n, 3)
+
+    def test_call(self):
+        call_expr = ast.Expr(value=Call(func=Lambda(args=ast.arguments(args=[ast.arg(arg='x')]), body=Name(id='x')), args=[Num(n=3)]))
+        env = Scope([])
+        k = Done()
+        val = step(call_expr, env, k)[0]
+        earg = step(call_expr, env, k)[2]
+        self.assertEqual(val.args.args[0].arg, 'x')
+        self.assertEqual(val.body.id, 'x')
+        self.assert_(isinstance(earg, Earg))
+        self.assertEqual(earg.expr.n, 3)
+
+    def test_if(self):
+        if_expr = ast.Expr(value=IfExp(test=Num(n=2), body=Num(n=1), orelse=Num(n=3)))
+        env = Scope([])
+        k = Done()
+        val = step(if_expr, env, k)[0]
+        eif = step(if_expr, env, k)[2]
+        self.assert_(isinstance(eif, Eif))
+        self.assertEqual(val.value.n, 2)
+        self.assertEqual(eif.then.value.n, 1)
+        self.assertEqual(eif.el.value.n, 3)
 
 
 if __name__ == '__main__':
