@@ -18,12 +18,7 @@ def parse_ast(file_name):
         return parse(f.read(), filename='<unknown>', mode='exec')
 
 
-
-
-
-
-# print(parse_ast("sample_input.py").body[0].body)
-print(dump(parse_ast("sample_input.py").body[0].value.body))
+print(dump(parse_ast("sample_input.py")))
 
 
 # read("sample_input.py")

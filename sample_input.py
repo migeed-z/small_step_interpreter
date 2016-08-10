@@ -14,4 +14,4 @@
 
 
 
-lambda x: - x
+3 if True else False

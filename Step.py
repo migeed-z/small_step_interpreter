@@ -6,8 +6,10 @@ config -> config
 
 """
 from ast import Call, Lambda, Name, Num, NameConstant, Expr, IfExp
-
-# from Closure import Closure
+from Done import Done
+from Earg import Earg
+from Eif import Eif
+from Closure import Closure
 from InterpreterError import InterpreterError
 
 
@@ -26,30 +28,40 @@ def step(expr, env, cont):
     value = expr.value
     if isinstance(expr, Expr):
 
-        #Num
-        if isinstance(value, Num):
-            print("Num")
+        #Num & Bool
+        if isinstance(value, Num) or isinstance(value, NameConstant):
+            if not isinstance(cont, Done):
+                return cont.apply(expr)
+
+            else:
+                return expr, env, cont
 
         #Var
         elif isinstance(value, Name):
             name = value.id
-            print("Variable")
-
-        #Bool
-        elif isinstance(value, NameConstant):
-            print( "Bool")
+            val = env.get(name)
+            if isinstance(val, Closure):
+                return val.lambda_expr, val.scope, cont
+            else:
+                return val, env, cont
 
         #Lambda
         elif isinstance(value, Lambda):
-            print("Lambda")
-
-        #IfExpr
-        elif isinstance(value, IfExp):
-            print("If Expr")
+            val = Closure(value, env)
+            return cont.apply(val)
 
         #Call
         elif isinstance(value, Call):
-            print("Call")
+            k = Earg(value.args[0], env, cont)
+            return value.func, env, k
+
+        #IfExpr
+        elif isinstance(value, IfExp):
+            test = Expr(value=value.test)
+            body = Expr(value=value.body)
+            orelse = Expr(value=value.orelse)
+
+            return test, env, Eif(body, orelse, env, cont)
 
     else:
         raise InterpreterError("Not a valid python program")
