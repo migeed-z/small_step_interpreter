@@ -44,12 +44,13 @@ class TestStep(unittest.TestCase):
         self.assertEqual(new_cont, Done())
 
     def test_variable(self):
-        var_expr = ast.Expr(value=Name(id='x', ctx=ast.Load()))
+        var_expr = ast.Expr(value=Name(id='x'))
         env = Scope([])
-        env.extend('x', 3)
+        new_env = env.extend('x', Num(3))
         k = Done()
-        val = step(var_expr, env, k)
+        val = step(var_expr, new_env, k)[0]
         self.assertEqual(val.n, 3)
+
 
     def test_lambda(self):
         lamb_expr = ast.Expr(value=Lambda(args=ast.arguments(args=[ast.arg(arg='x')]), body=Num(n=3)))
