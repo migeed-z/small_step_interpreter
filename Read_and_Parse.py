@@ -23,7 +23,7 @@ def parse_ast(file_name):
 
 
 # print(parse_ast("sample_input.py").body[0].body)
-# print(parse_ast("sample_input.py").body[0].value)
+print(dump(parse_ast("sample_input.py").body[0].value.body))
 
 
-read("sample_input.py")
+# read("sample_input.py")

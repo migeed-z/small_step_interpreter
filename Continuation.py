@@ -1,8 +1,9 @@
 from abc import abstractclassmethod
 
-class Continuation(list):
-    def __init__(self, k):
-        super().__init__(k)
+class Continuation:
+
+    def __init__(self):
+        pass
 
     def apply(self, val):
         """
