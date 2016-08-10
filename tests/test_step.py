@@ -49,10 +49,10 @@ class TestStep(unittest.TestCase):
     def test_variable(self):
         var_expr = ast.Expr(value=Name(id='x'))
         env = Scope([])
-        new_env = env.extend('x', Num(3))
+        new_env = env.extend('x', Expr(value=Num(3)))
         k = Done()
         val = step(var_expr, new_env, k)[0]
-        self.assertEqual(val.n, 3)
+        self.assertEqual(val.value.n, 3)
 
     def test_lambda(self):
         lamb_expr = ast.Expr(value=Lambda(args=ast.arguments(args=[ast.arg(arg='x')]), body=Num(n=3)))
@@ -101,7 +101,8 @@ class TestStep(unittest.TestCase):
         env = Scope([])
         k = Ecall(ast.Expr(value=Lambda(args=ast.arguments(args=[ast.arg(arg='x')]), body=Name(id='x'))), env, Done())
         scope = step(num_expr, env, k)[1]
-        self.assertEqual(scope.get('x').n, 3)
+        print(scope.get('x'))
+        self.assertEqual(scope.get('x').value.n, 3)
 
 
 if __name__ == '__main__':

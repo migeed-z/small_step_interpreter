@@ -1,4 +1,6 @@
+import ast
 from Continuation import Continuation
+
 
 class Ecall(Continuation):
     
@@ -21,7 +23,7 @@ class Ecall(Continuation):
         :param val: arg
         :return: Config?
         """
-        # fun_param = expr.
-        scope = self.env.extend((self.expr.args.args[0].arg, val))
-        return self.expr.body, scope, k
+        print(ast.dump(self.expr))
+        scope = self.env.extend(self.expr.value.args.args[0].arg, val)
+        return self.expr.value.body, scope, self.k
 
