@@ -22,6 +22,6 @@ class Ecall(Continuation):
         :return: Config?
         """
         # fun_param = expr.
-        scope = self.env.extend((expr.args.args[0].arg, val))
-        return expr.body, scope, k
+        scope = self.env.extend((self.expr.args.args[0].arg, val))
+        return self.expr.body, scope, k
 

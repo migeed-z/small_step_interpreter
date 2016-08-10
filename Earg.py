@@ -22,7 +22,7 @@ class Earg(Continuation):
         :param val: Closure
         :return:
         """
-        return expr, env, Ecall(val.lambda_expr, val.scope, k)
+        return self.expr, self.env, Ecall(val.lambda_expr, val.scope, self.k)
 
 
 

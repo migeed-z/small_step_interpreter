@@ -5,6 +5,7 @@ from Scope import Scope
 from Done import Done
 from Earg import Earg
 from Eif import Eif
+from Ecall import Ecall
 from Closure import Closure
 
 
@@ -84,6 +85,23 @@ class TestStep(unittest.TestCase):
         self.assertEqual(val.value.n, 2)
         self.assertEqual(eif.then.value.n, 1)
         self.assertEqual(eif.el.value.n, 3)
+
+    def test_earg_apply(self):
+        lamb_expr = ast.Expr(value=Lambda(args=ast.arguments(args=[ast.arg(arg='x')]), body=Name(id='x')))
+        env = Scope([])
+        earg = Earg(ast.Expr(value=Num(n=3)), env, Done())
+        val = step(lamb_expr, env, earg)[0]
+        cont = step(lamb_expr, env, earg)[2]
+        self.assertEqual(val.value.n, 3)
+        self.assert_(isinstance(cont, Ecall))
+        self.assert_(isinstance(cont.k, Done))
+
+    def test_ecall_apply(self):
+        num_expr = ast.Expr(value=Num(n=3))
+        env = Scope([])
+        k = Ecall(ast.Expr(value=Lambda(args=ast.arguments(args=[ast.arg(arg='x')]), body=Name(id='x'))), env, Done())
+        scope = step(num_expr, env, k)[1]
+        self.assertEqual(scope.get('x').n, 3)
 
 
 if __name__ == '__main__':
