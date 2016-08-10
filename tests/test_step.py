@@ -19,32 +19,12 @@ class TestStep(unittest.TestCase):
         val = step(num_expr, env, k)[0].value
         self.assertEqual(val.n, 3)
 
-    def test_num_with_cont(self):
-        num_expr = ast.Expr(value=Num(3))
-        env = Scope([])
-        k = Eif(Expr(value=Num(4)), Expr(value=Num(2)), env, Done())
-        val_tuple = step(num_expr, env, k)
-        val = val_tuple[0].value
-        new_cont = val_tuple[2]
-        self.assertEqual(val.n, 4)
-        self.assertEqual(new_cont, Done())
-
     def test_bool_no_cont(self):
         bool_expr = ast.Expr(value=NameConstant(True))
         env = Scope([])
         k = Done()
         val = step(bool_expr, env, k)[0].value
         self.assertEqual(val.value, True)
-
-    def test_bool_with_cont(self):
-        bool_expr = ast.Expr(value=NameConstant(3))
-        env = Scope([])
-        k = Eif(Expr(value=Num(4)), Expr(value=Num(2)), env, Done())
-        val_tuple = step(bool_expr, env, k)
-        val = val_tuple[0].value
-        new_cont = val_tuple[2]
-        self.assertEqual(val.n, 4)
-        self.assertEqual(new_cont, Done())
 
     def test_variable(self):
         var_expr = ast.Expr(value=Name(id='x'))
@@ -85,24 +65,6 @@ class TestStep(unittest.TestCase):
         self.assertEqual(val.value.n, 2)
         self.assertEqual(eif.then.value.n, 1)
         self.assertEqual(eif.el.value.n, 3)
-
-    def test_earg_apply(self):
-        lamb_expr = ast.Expr(value=Lambda(args=ast.arguments(args=[ast.arg(arg='x')]), body=Name(id='x')))
-        env = Scope([])
-        earg = Earg(ast.Expr(value=Num(n=3)), env, Done())
-        val = step(lamb_expr, env, earg)[0]
-        cont = step(lamb_expr, env, earg)[2]
-        self.assertEqual(val.value.n, 3)
-        self.assert_(isinstance(cont, Ecall))
-        self.assert_(isinstance(cont.k, Done))
-
-    def test_ecall_apply(self):
-        num_expr = ast.Expr(value=Num(n=3))
-        env = Scope([])
-        k = Ecall(ast.Expr(value=Lambda(args=ast.arguments(args=[ast.arg(arg='x')]), body=Name(id='x'))), env, Done())
-        scope = step(num_expr, env, k)[1]
-        print(scope.get('x'))
-        self.assertEqual(scope.get('x').value.n, 3)
 
 
 if __name__ == '__main__':

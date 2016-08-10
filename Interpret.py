@@ -9,6 +9,7 @@ A Value is one of:
 
 Receives a file name from and produces a python AST.
 """
+from ast import Num, NameConstant
 from Scope import Scope
 from Step import step
 from ast import ImportFrom, Expr, dump
@@ -25,6 +26,7 @@ def interpret(expr):
     node = expr.body[0]
     env = Scope(())
     cont = Done()
+    print(dump(node))
 
     while not is_value(node) or not isinstance(cont, Done):
         node, env, cont = step(node, env, cont)

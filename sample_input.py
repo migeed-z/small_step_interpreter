@@ -10,8 +10,7 @@
 # else:
 #     6
 #
-#
 
-x
+True
 
 # 3 if True else False

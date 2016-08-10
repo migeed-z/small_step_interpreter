@@ -6,7 +6,6 @@ config -> config
 
 """
 from ast import Call, Lambda, Name, Num, NameConstant, Expr, IfExp
-from Done import Done
 from Earg import Earg
 from Eif import Eif
 from Closure import Closure
