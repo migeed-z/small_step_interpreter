@@ -27,16 +27,14 @@ def interpret(expr):
     node = expr.body[0]
     env = Scope(())
     cont = Done()
-
     if isinstance(node, Expr):
         val = node.value
     else:
         raise InterpreterError('Not a valid python program')
 
     while not is_value(val) or not isinstance(cont, Done):
-        print(val)
         val, env, cont = step(val, env, cont)
-        if is_value(val):
+        if is_value(val) and not isinstance(cont, Done):
             val, env, cont = cont.apply(val)
     return val
 

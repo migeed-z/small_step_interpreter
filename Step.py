@@ -33,7 +33,6 @@ def step(expr, env, cont):
     elif isinstance(expr, Name):
         name = expr.id
         val = env.get(name)
-        print("val %s" % val)
         if isinstance(val, Closure):
             return val.lambda_expr, val.scope, cont
         else:
