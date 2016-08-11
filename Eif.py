@@ -1,3 +1,4 @@
+import ast
 from Continuation import Continuation
 
 class Eif(Continuation):
@@ -11,4 +12,10 @@ class Eif(Continuation):
 
 
     def apply(self, cond):
-        return (self.then if cond else self.el, self.env, self.k)
+        val = None
+        if isinstance(cond, ast.NameConstant):
+            val = cond.value
+        elif isinstance(cond, ast.Num):
+            val = cond.n
+
+        return (self.then if val else self.el, self.env, self.k)
