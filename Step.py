@@ -19,45 +19,43 @@ def step(expr, env, cont):
     If no further computation is
     possible, step returns the
      expression
-    :param expr: Expr
+    :param expr: Expr.value
     :param env: Scope
     :param cont: Continuation
     :return: (Expr, Scope, Continuation)
     """
 
-    if isinstance(expr, Expr):
-        value = expr.value
+    #Num & Bool
+    if isinstance(expr, Num) or isinstance(expr, NameConstant):
+        return expr, env, cont
 
-        #Num & Bool
-        if isinstance(value, Num) or isinstance(value, NameConstant):
-            return expr, env, cont
-
-        #Var
-        elif isinstance(value, Name):
-            name = value.id
-            val = env.get(name)
-            if isinstance(val, Closure):
-                return val.lambda_expr, val.scope, cont
-            else:
-                return val, env, cont
-
-        #Lambda
-        elif isinstance(value, Lambda):
-            val = Closure(value, env)
+    #Var
+    elif isinstance(expr, Name):
+        name = expr.id
+        val = env.get(name)
+        print("val %s" % val)
+        if isinstance(val, Closure):
+            return val.lambda_expr, val.scope, cont
+        else:
             return val, env, cont
 
-        #Call
-        elif isinstance(value, Call):
-            k = Earg(value.args[0], env, cont)
-            return value.func, env, k
+    #Lambda
+    elif isinstance(expr, Lambda):
+        val = Closure(expr, env)
+        return val, env, cont
 
-        #IfExpr
-        elif isinstance(value, IfExp):
-            test = Expr(value=value.test)
-            body = Expr(value=value.body)
-            orelse = Expr(value=value.orelse)
+    #Call
+    elif isinstance(expr, Call):
+        k = Earg(expr.args[0], env, cont)
+        return expr.func, env, k
 
-            return test, env, Eif(body, orelse, env, cont)
+    #IfExpr
+    elif isinstance(expr, IfExp):
+        test = expr.test
+        body = expr.body
+        orelse = expr.orelse
+
+        return test, env, Eif(body, orelse, env, cont)
 
     else:
         raise InterpreterError("Not a valid program")

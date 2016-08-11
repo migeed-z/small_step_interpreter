@@ -13,29 +13,29 @@ from Closure import Closure
 class TestStep(unittest.TestCase):
 
     def test_num_no_cont(self):
-        num_expr = ast.Expr(value=Num(3))
+        num_expr = Num(3)
         env = Scope([])
         k = Done()
-        val = step(num_expr, env, k)[0].value
+        val = step(num_expr, env, k)[0]
         self.assertEqual(val.n, 3)
 
     def test_bool_no_cont(self):
-        bool_expr = ast.Expr(value=NameConstant(True))
+        bool_expr = NameConstant(True)
         env = Scope([])
         k = Done()
-        val = step(bool_expr, env, k)[0].value
+        val = step(bool_expr, env, k)[0]
         self.assertEqual(val.value, True)
 
     def test_variable(self):
-        var_expr = ast.Expr(value=Name(id='x'))
+        var_expr = Name(id='x')
         env = Scope([])
-        new_env = env.extend('x', Expr(value=Num(3)))
+        new_env = env.extend('x', Num(3))
         k = Done()
         val = step(var_expr, new_env, k)[0]
-        self.assertEqual(val.value.n, 3)
+        self.assertEqual(val.n, 3)
 
     def test_lambda(self):
-        lamb_expr = ast.Expr(value=Lambda(args=ast.arguments(args=[ast.arg(arg='x')]), body=Num(n=3)))
+        lamb_expr = Lambda(args=ast.arguments(args=[ast.arg(arg='x')]), body=Num(n=3))
         env = Scope([])
         k = Done()
         val = step(lamb_expr, env, k)[0]
@@ -45,7 +45,7 @@ class TestStep(unittest.TestCase):
         self.assertEqual(expr.body.n, 3)
 
     def test_call(self):
-        call_expr = ast.Expr(value=Call(func=Lambda(args=ast.arguments(args=[ast.arg(arg='x')]), body=Name(id='x')), args=[Num(n=3)]))
+        call_expr = Call(func=Lambda(args=ast.arguments(args=[ast.arg(arg='x')]), body=Name(id='x')), args=[Num(n=3)])
         env = Scope([])
         k = Done()
         val = step(call_expr, env, k)[0]
@@ -56,15 +56,15 @@ class TestStep(unittest.TestCase):
         self.assertEqual(earg.expr.n, 3)
 
     def test_if(self):
-        if_expr = ast.Expr(value=IfExp(test=Num(n=2), body=Num(n=1), orelse=Num(n=3)))
+        if_expr = IfExp(test=Num(n=2), body=Num(n=1), orelse=Num(n=3))
         env = Scope([])
         k = Done()
         val = step(if_expr, env, k)[0]
         eif = step(if_expr, env, k)[2]
         self.assert_(isinstance(eif, Eif))
-        self.assertEqual(val.value.n, 2)
-        self.assertEqual(eif.then.value.n, 1)
-        self.assertEqual(eif.el.value.n, 3)
+        self.assertEqual(val.n, 2)
+        self.assertEqual(eif.then.n, 1)
+        self.assertEqual(eif.el.n, 3)
 
 
 if __name__ == '__main__':

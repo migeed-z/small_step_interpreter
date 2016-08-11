@@ -11,4 +11,4 @@ class Eif(Continuation):
 
 
     def apply(self, cond):
-        return (self.then if cond.value else self.el, self.env, self.k)
+        return (self.then if cond else self.el, self.env, self.k)

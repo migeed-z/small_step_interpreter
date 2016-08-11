@@ -15,6 +15,7 @@ from Step import step
 from ast import ImportFrom, Expr, dump
 from Done import Done
 from Closure import Closure
+from InterpreterError import InterpreterError
 
 def interpret(expr):
     """
@@ -26,18 +27,22 @@ def interpret(expr):
     node = expr.body[0]
     env = Scope(())
     cont = Done()
-    print(dump(node))
 
-    while not is_value(node) or not isinstance(cont, Done):
-        node, env, cont = step(node, env, cont)
-        if is_value(node):
-            cont.apply(node)
-    return node
+    if isinstance(node, Expr):
+        val = node.value
+    else:
+        raise InterpreterError('Not a valid python program')
+
+    while not is_value(val) or not isinstance(cont, Done):
+        print(val)
+        val, env, cont = step(val, env, cont)
+        if is_value(val):
+            val, env, cont = cont.apply(val)
+    return val
 
 def is_value(node):
-    return isinstance(node, Expr) and \
-           (isinstance(node.value, Num) or
-            isinstance(node.value, NameConstant) or
-            isinstance(node.value, Closure))
+    return  isinstance(node, Num)\
+            or isinstance(node, NameConstant) \
+            or isinstance(node, Closure)
 
 

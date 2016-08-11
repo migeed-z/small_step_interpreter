@@ -8,9 +8,9 @@ class Ecall(Continuation):
         """
 
         :param expr: Lambda expression
-        :param env: the env. of the lambda expr.
-        :param k:
-        :return:
+        :type expr: Expr.value
+        :type env: Scope
+        :type k: Continuation
         """
         super().__init__()
 
@@ -21,9 +21,8 @@ class Ecall(Continuation):
     def apply(self, val):
         """
         :param val: arg
-        :return: Config?
+        :return: Configuration
         """
-        print(ast.dump(self.expr))
-        scope = self.env.extend(self.expr.value.args.args[0].arg, val)
-        return self.expr.value.body, scope, self.k
+        scope = self.env.extend(self.expr.args.args[0].arg, val)
+        return self.expr.body, scope, self.k
 

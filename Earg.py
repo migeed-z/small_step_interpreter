@@ -7,9 +7,9 @@ class Earg(Continuation):
     def __init__(self, expr, env, k):
         """
         :param expr: Argument to the function/ val
-        :param env:
-        :param k:
-        :return:
+        :type expr: Expr.value
+        :type env: Scope
+        :type k: Continuation
         """
         super().__init__()
 
@@ -20,7 +20,7 @@ class Earg(Continuation):
     def apply(self, val):
         """
         :param val: Closure
-        :return:
+        :return: Configuration
         """
         return self.expr, self.env, Ecall(val.lambda_expr, val.scope, self.k)
 
