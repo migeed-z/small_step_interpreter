@@ -39,17 +39,17 @@ class TestStep(unittest.TestCase):
         val = interpret(bool_expr)
         self.assertEqual(val.value, True)
 
-    # def test_if_call(self):
-    #     if_call_expr = ast.Module(body=[Expr(value=IfExp(test=NameConstant(value=False), body=Num(n=1), orelse=Call(func=Call(
-    #         func=Lambda(args=ast.arguments(args=[ast.arg(arg='x')]), body=Name(id='x')), args=[Lambda(
-    #         args=ast.arguments(args=[ast.arg(arg='y')]), body=Name(id='y'))]), args=[Num(n=4)])))])
-    #     val = interpret(if_call_expr)
-    #     self.assertEqual(val.n, 4)
-    #
-    # def test_if_if(self):
-    #     if_if_expr = ast.Module(body=[Expr(value=IfExp(test=NameConstant(value=False), body=Num(n=3), orelse=IfExp(test=NameConstant(value=True), body=Num(n=4), orelse=Num(n=1))))])
-    #     val = interpret(if_if_expr)
-    #     self.assertEqual(val.n, 4)
+    def test_if_call(self):
+        if_call_expr = ast.Module(body=[Expr(value=IfExp(test=NameConstant(value=False), body=Num(n=1), orelse=Call(func=Call(
+            func=Lambda(args=ast.arguments(args=[ast.arg(arg='x')]), body=Name(id='x')), args=[Lambda(
+            args=ast.arguments(args=[ast.arg(arg='y')]), body=Name(id='y'))]), args=[Num(n=4)])))])
+        val = interpret(if_call_expr)
+        self.assertEqual(val.n, 4)
+
+    def test_if_if(self):
+        if_if_expr = ast.Module(body=[Expr(value=IfExp(test=NameConstant(value=False), body=Num(n=3), orelse=IfExp(test=NameConstant(value=True), body=Num(n=4), orelse=Num(n=1))))])
+        val = interpret(if_if_expr)
+        self.assertEqual(val.n, 4)
 
 
 if __name__ == '__main__':
