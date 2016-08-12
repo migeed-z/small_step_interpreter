@@ -40,6 +40,7 @@ def step(expr, env, cont):
 
     #Lambda
     elif isinstance(expr, Lambda):
+        #and if cont. has
         val = Closure(expr, env)
         return val, env, cont
 
