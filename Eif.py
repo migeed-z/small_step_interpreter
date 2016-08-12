@@ -11,7 +11,7 @@ class Eif(Continuation):
         self.env = env
 
 
-    def apply(self, cond):
+    def apply(self, cond, scope):
         val = None
         if isinstance(cond, ast.NameConstant):
             val = cond.value

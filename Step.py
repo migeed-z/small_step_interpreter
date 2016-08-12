@@ -8,6 +8,7 @@ config -> config
 from ast import Call, Lambda, Name, Num, NameConstant, Expr, IfExp
 from Earg import Earg
 from Eif import Eif
+from Done import Done
 from Closure import Closure
 from InterpreterError import InterpreterError
 
@@ -27,7 +28,10 @@ def step(expr, env, cont):
 
     #Num & Bool
     if isinstance(expr, Num) or isinstance(expr, NameConstant):
-        return expr, env, cont
+        if not isinstance(cont, Done):
+            return cont.apply(expr, env)
+        else:
+            return expr, env, cont
 
     #Var
     elif isinstance(expr, Name):
@@ -41,8 +45,10 @@ def step(expr, env, cont):
     #Lambda
     elif isinstance(expr, Lambda):
         #and if cont. has
-        val = Closure(expr, env)
-        return val, env, cont
+        if not isinstance(cont, Done):
+            return cont.apply(expr, env)
+        else:
+            return expr, env, cont
 
     #Call
     elif isinstance(expr, Call):

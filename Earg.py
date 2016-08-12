@@ -17,12 +17,12 @@ class Earg(Continuation):
         self.expr = expr
         self.env = env
 
-    def apply(self, val):
+    def apply(self, val, scope):
         """
         :param val: Closure
         :return: Configuration
         """
-        return self.expr, self.env, Ecall(val.lambda_expr, val.scope, self.k)
+        return self.expr, self.env, Ecall(val, scope, self.k)
 
 
 

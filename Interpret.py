@@ -34,8 +34,6 @@ def interpret(expr):
 
     while not is_value(val) or not isinstance(cont, Done):
         val, env, cont = step(val, env, cont)
-        if is_value(val) and not isinstance(cont, Done):
-            val, env, cont = cont.apply(val)
     return val
 
 def is_value(node):

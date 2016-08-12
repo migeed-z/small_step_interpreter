@@ -18,10 +18,9 @@ class Ecall(Continuation):
         self.expr = expr
         self.env = env
 
-    def apply(self, val):
+    def apply(self, val, scope):
         """
         :param val: arg
-        :return: Configuration
         """
         scope = self.env.extend(self.expr.args.args[0].arg, val)
         return self.expr.body, scope, self.k
