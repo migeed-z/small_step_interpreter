@@ -39,10 +39,9 @@ class TestStep(unittest.TestCase):
         env = Scope([])
         k = Done()
         val = step(lamb_expr, env, k)[0]
-        self.assert_(isinstance(val, Closure))
-        expr = val.lambda_expr
-        self.assertEqual(expr.args.args[0].arg, 'x')
-        self.assertEqual(expr.body.n, 3)
+        self.assert_(isinstance(val, Lambda))
+        self.assertEqual(val.args.args[0].arg, 'x')
+        self.assertEqual(val.body.n, 3)
 
     def test_call(self):
         call_expr = Call(func=Lambda(args=ast.arguments(args=[ast.arg(arg='x')]), body=Name(id='x')), args=[Num(n=3)])

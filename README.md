@@ -21,7 +21,7 @@ An interpreter that evaluates a small language written in python syntax.
 **Values**:
 - Python Bool
 - Python Num
-- Closures
+- Python Lambda
 
 
 

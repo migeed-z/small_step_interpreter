@@ -7,7 +7,6 @@ Receives a file name from and produces a python AST.
 
 import ast
 from Interpret import interpret
-from Closure import Closure
 import sys
 
 # sys.path.insert(0, '../programs')
@@ -33,8 +32,8 @@ def unwrap(node):
         return node.value
     elif isinstance(node, ast.Num):
         return node.n
-    elif isinstance(node, Closure):
-        return node.lambda_expr
+    elif isinstance(node, ast.Lambda):
+        return node
 
 def parse_ast(file_name):
     with open(file_name, "r") as f:

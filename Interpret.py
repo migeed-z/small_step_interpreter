@@ -9,12 +9,11 @@ A Value is one of:
 
 Receives a file name from and produces a python AST.
 """
-from ast import Num, NameConstant
+from ast import Num, NameConstant, Lambda
 from Scope import Scope
 from Step import step
 from ast import ImportFrom, Expr, dump
 from Done import Done
-from Closure import Closure
 from InterpreterError import InterpreterError
 
 def interpret(expr):
@@ -39,6 +38,6 @@ def interpret(expr):
 def is_value(node):
     return  isinstance(node, Num)\
             or isinstance(node, NameConstant) \
-            or isinstance(node, Closure)
+            or isinstance(node, Lambda)
 
 
