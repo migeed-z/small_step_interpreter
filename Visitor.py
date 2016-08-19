@@ -13,10 +13,9 @@ def _declaring_class(obj):
 _methods = {}
 
 # Delegating visitor implementation
-def _visitor_impl(self, arg):
-    """Actual visitor method implementation."""
-    method = _methods[(_qualname(type(self)), type(arg))]
-    return method(self, arg)
+def _visitor_impl(self, op, env, args):
+    method = _methods[(_qualname(type(self)), type(op))]
+    return method(self, op, env, args)
 
 # The actual @visitor decorator
 def visitor(arg_type):
