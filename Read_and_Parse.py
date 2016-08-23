@@ -9,7 +9,6 @@ import ast
 from Interpret import interpret
 import sys
 
-# sys.path.insert(0, '../programs')
 
 def main(argv):
     if len(argv) < 1:
@@ -38,6 +37,7 @@ def unwrap(node):
 def parse_ast(file_name):
     with open(file_name, "r") as f:
         return ast.parse(f.read(), filename='<unknown>', mode='exec')
+
 
 if __name__ == "__main__":
    main(sys.argv[1:])

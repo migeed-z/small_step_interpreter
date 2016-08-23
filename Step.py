@@ -5,13 +5,13 @@ a config is: (expr, env, cont)
 config -> config
 
 """
-from ast import Call, Lambda, Name, Num, NameConstant, Expr, IfExp
+from ast import Call, Lambda, Name, Num, NameConstant, Expr, IfExp, BinOp
 from Earg import Earg
 from Eif import Eif
 from Done import Done
 from Closure import Closure
 from InterpreterError import InterpreterError
-
+from Visit import OpVisitor
 
 def step(expr, env, cont):
     """
@@ -25,6 +25,7 @@ def step(expr, env, cont):
     :param cont: Continuation
     :return: (Expr, Scope, Continuation)
     """
+
 
     #Num & Bool
     if isinstance(expr, Num) or isinstance(expr, NameConstant):
@@ -55,6 +56,15 @@ def step(expr, env, cont):
         k = Earg(expr.args[0], env, cont)
         return expr.func, env, k
 
+    #Op (same as call)
+    elif isinstance(expr, BinOp):
+        visitor = OpVisitor()
+        name = visitor.visit(expr.op)
+        k = Earg(expr.left, env, cont)
+        val = env.get(name)
+        print("val %s" % val)
+        return val, env, k
+
     #IfExpr
     elif isinstance(expr, IfExp):
         test = expr.test
@@ -64,5 +74,5 @@ def step(expr, env, cont):
         return test, env, Eif(body, orelse, env, cont)
 
     else:
+        print("error expr %s" % expr)
         raise InterpreterError("Not a valid program")
-

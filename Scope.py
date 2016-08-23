@@ -11,9 +11,6 @@ class Scope:
         """
         self.defs = defs
 
-    def __str__(self):
-        return self.defs[0]
-
     def extend(self, name, val):
         """
         Expends this Scope with name and val
@@ -40,5 +37,16 @@ class Scope:
             else:
                 return old_self.get(key)
 
+    def init_defs(self):
+        add = self.extend('+', lambda x: lambda y: x + y)
+        # sub = add.extend('-', lambda x: lambda y: x + y)
+        # mul = sub.extend('*', lambda x: lambda y: x + y)
+        # div = mul.extend('/', lambda x: lambda y: x + y)
+        # exp = div.extend('^', lambda x: lambda y: x ** y)
+        return add
+
+
     def __eq__(self, other):
         return isinstance(other, Scope) and self.defs == other.defs
+
+
