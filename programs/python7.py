@@ -1,0 +1,1 @@
+(lambda z: z(3)(4))(lambda x: (lambda y: x + y + x - x))

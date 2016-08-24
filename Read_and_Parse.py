@@ -9,7 +9,6 @@ import ast
 from Interpret import interpret
 import sys
 
-
 def main(argv):
     if len(argv) < 1:
         print('Bye!')

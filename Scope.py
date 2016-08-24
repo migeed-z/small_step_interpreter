@@ -1,3 +1,5 @@
+import ast
+
 class Scope:
     """
     To represent the definitions as a tuple T, where t[0] is a key, t[1] is a value and t[2] is
@@ -38,7 +40,9 @@ class Scope:
                 return old_self.get(key)
 
     def init_defs(self):
-        add = self.extend('+', lambda x: lambda y: x + y)
+        add = self.extend('+', ast.Lambda(args=ast.arguments(args=[ast.arg(arg='x')]),
+                                      body=ast.Lambda(args=ast.arguments(args=[ast.arg(arg='y')]), body=ast.BinOp(left=ast.Name(id='x',
+                                      ctx=ast.Load()), op=ast.Add(), right=ast.Name(id='y', ctx=ast.Load())))))
         # sub = add.extend('-', lambda x: lambda y: x + y)
         # mul = sub.extend('*', lambda x: lambda y: x + y)
         # div = mul.extend('/', lambda x: lambda y: x + y)

@@ -12,6 +12,7 @@ from Done import Done
 from Closure import Closure
 from InterpreterError import InterpreterError
 from Visit import OpVisitor
+from Eoparg import Eoparg
 
 def step(expr, env, cont):
     """
@@ -59,11 +60,15 @@ def step(expr, env, cont):
     #Op (same as call)
     elif isinstance(expr, BinOp):
         visitor = OpVisitor()
-        name = visitor.visit(expr.op)
-        k = Earg(expr.left, env, cont)
-        val = env.get(name)
-        print("val %s" % val)
+        opname = visitor.visit(expr.op)
+        ops = [opname, expr.right]
+        k = Eoparg(ops, env, cont)
+        val = expr.left
         return val, env, k
+
+    elif isinstance(expr, list):
+        val = expr[0](expr[1].n, expr[2].n)
+        return Num(n=val), env, cont
 
     #IfExpr
     elif isinstance(expr, IfExp):
