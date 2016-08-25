@@ -66,6 +66,7 @@ def step(expr, env, cont):
         val = expr.left
         return val, env, k
 
+    #perform operation
     elif isinstance(expr, list):
         val = expr[0](expr[1].n, expr[2].n)
         return Num(n=val), env, cont

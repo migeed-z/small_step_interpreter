@@ -5,8 +5,8 @@ class Eoparg(Continuation):
 
     def __init__(self, expr, env, k):
         """
-        :param expr: Argument to the function/ val
-        :type expr: Expr.value
+        :param expr: a length 2 list, position 0 is the operation, position 1 is the right side of the operation
+        :type expr: python list
         :type env: Scope
         :type k: Continuation
         """
@@ -18,7 +18,7 @@ class Eoparg(Continuation):
 
     def apply(self, val, scope):
         """
-        :param val: Closure
+        :param val: the evaluated value of the left side
         :return: Configuration
         """
         ret = self.expr[1]
