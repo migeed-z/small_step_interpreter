@@ -11,12 +11,29 @@ An interpreter that evaluates a small language written in python syntax.
  - True/ False - Boolean
 
 **Expr**:
-- if
-- call
-- var
-- lambda
+- Expr if Expr else Expr
+- lambda: arg Expr (Expr)
+- Token
+- lambda: arg Expr
+- Numerical Expr
+- Constant
+
+**Token**
+A token is a sequence of characters. 
+
+**Constant**
+- True
+- False
+
+**Numerical Expr**
 - num
-- bool
+- Numerical Expr OP Numerical Expr
+
+**OP**
+- +
+- -
+- *
+- /
 
 **Values**:
 - Python Bool
