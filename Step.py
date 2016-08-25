@@ -5,7 +5,7 @@ a config is: (expr, env, cont)
 config -> config
 
 """
-from ast import Call, Lambda, Name, Num, NameConstant, Expr, IfExp, BinOp
+from ast import Call, Lambda, Name, Num, NameConstant, Expr, IfExp, BinOp, dump
 from Earg import Earg
 from Eif import Eif
 from Done import Done
@@ -13,6 +13,7 @@ from Closure import Closure
 from InterpreterError import InterpreterError
 from Visit import OpVisitor
 from Eoparg import Eoparg
+from copy import copy
 
 def step(expr, env, cont):
     """
@@ -59,12 +60,8 @@ def step(expr, env, cont):
 
     #Op (same as call)
     elif isinstance(expr, BinOp):
-        visitor = OpVisitor()
-        opname = visitor.visit(expr.op)
-        ops = [opname, expr.right]
-        k = Eoparg(ops, env, cont)
-        val = expr.left
-        return val, env, k
+        k = Eoparg(expr.right, expr.op, env, cont)
+        return expr.left, env, k
 
     #perform operation
     elif isinstance(expr, list):
@@ -80,5 +77,5 @@ def step(expr, env, cont):
         return test, env, Eif(body, orelse, env, cont)
 
     else:
-        print("error expr %s" % expr)
+        print("error expr %s" % dump(expr))
         raise InterpreterError("Not a valid program")

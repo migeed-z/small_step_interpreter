@@ -3,15 +3,18 @@ from Ebinop import Ebinop
 
 class Eoparg(Continuation):
 
-    def __init__(self, expr, env, k):
+    def __init__(self, expr, op, env, k):
         """
-        :param expr: a length 2 list, position 0 is the operation, position 1 is the right side of the operation
-        :type expr: python list
+        :param expr: right side of the expression
+        :type expr: Expr.value
+        :param op: operation
+        :type op: operator
         :type env: Scope
         :type k: Continuation
         """
         super().__init__()
 
+        self.op = op
         self.k = k
         self.expr = expr
         self.env = env
@@ -19,9 +22,8 @@ class Eoparg(Continuation):
     def apply(self, val, scope):
         """
         :param val: the evaluated value of the left side
+        :type val: Num
         :return: Configuration
         """
-        ret = self.expr[1]
-        self.expr[1] = val
-        return ret, self.env, Ebinop(self.expr, scope, self.k)
+        return self.expr, self.env, Ebinop(val, self.op, scope, self.k)
 
