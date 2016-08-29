@@ -5,7 +5,7 @@ a config is: (expr, env, cont)
 config -> config
 
 """
-from ast import Call, Lambda, Name, Num, NameConstant, Expr, IfExp, BinOp, dump
+from ast import Call, Lambda, Name, Num, NameConstant, Expr, IfExp, BinOp, dump, Compare
 from Earg import Earg
 from Eif import Eif
 from Done import Done
@@ -13,6 +13,8 @@ from Closure import Closure
 from InterpreterError import InterpreterError
 from Visit import OpVisitor
 from Eoparg import Eoparg
+from Ecomp import Ecomp
+from Ecomparg import Ecomparg
 from copy import copy
 
 def step(expr, env, cont):
@@ -58,15 +60,15 @@ def step(expr, env, cont):
         k = Earg(expr.args[0], env, cont)
         return expr.func, env, k
 
-    #Op (same as call)
+    #BinOp
     elif isinstance(expr, BinOp):
         k = Eoparg(expr.right, expr.op, env, cont)
         return expr.left, env, k
 
-    #perform operation
-    elif isinstance(expr, list):
-        val = expr[0](expr[1].n, expr[2].n)
-        return Num(n=val), env, cont
+    #Comparator
+    elif isinstance(expr, Compare):
+        k = Ecomparg(expr.ops, expr.comparators, env, cont)
+        return expr.left, env, k
 
     #IfExpr
     elif isinstance(expr, IfExp):
@@ -79,3 +81,7 @@ def step(expr, env, cont):
     else:
         print("error expr %s" % dump(expr))
         raise InterpreterError("Not a valid program")
+
+# 3 == 5 > 4 > 1 == 5
+#
+# ops=[Eq(), Gt(), Gt(), Eq()], comparators=[Num(n=5), Num(n=4), Num(n=1), Num(n=5)]

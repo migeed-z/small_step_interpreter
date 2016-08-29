@@ -1,5 +1,5 @@
 from Visitor import visitor
-from ast import Add, Sub, Mult, Div
+from ast import Add, Sub, Mult, Div, Eq, Gt, Lt, LtE
 import operator
 
 class OpVisitor:
@@ -20,3 +20,18 @@ class OpVisitor:
     def visit(self, op):
         return operator.mul
 
+    @visitor(Eq)
+    def visit(self, op):
+        return operator.eq
+
+    @visitor(Lt)
+    def visit(self, op):
+        return operator.lt
+
+    @visitor(Gt)
+    def visit(self, op):
+        return operator.gt
+
+    @visitor(LtE)
+    def visit(self, op):
+        return operator.le

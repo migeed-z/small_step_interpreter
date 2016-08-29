@@ -38,9 +38,9 @@ def parse_ast(file_name):
         return ast.parse(f.read(), filename='<unknown>', mode='exec')
 
 
-# print(ast.dump(parse_ast('sample_input.py')))
-
-
 if __name__ == "__main__":
    main(sys.argv[1:])
 
+
+
+# print(ast.dump(parse_ast('sample_input.py')))
