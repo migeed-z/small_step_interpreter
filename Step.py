@@ -30,6 +30,7 @@ def step(expr, env, cont):
     :return: (Expr, Scope, Continuation)
     """
 
+    print(dump(expr))
 
     #Num & Bool
     if isinstance(expr, Num) or isinstance(expr, NameConstant):
@@ -82,6 +83,3 @@ def step(expr, env, cont):
         print("error expr %s" % dump(expr))
         raise InterpreterError("Not a valid program")
 
-# 3 == 5 > 4 > 1 == 5
-#
-# ops=[Eq(), Gt(), Gt(), Eq()], comparators=[Num(n=5), Num(n=4), Num(n=1), Num(n=5)]

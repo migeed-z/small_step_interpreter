@@ -24,7 +24,7 @@ def interpret(expr):
     """
 
     node = expr.body[0]
-    env = Scope(()).init_defs()
+    env = Scope(())
     cont = Done()
     if isinstance(node, Expr):
         val = node.value

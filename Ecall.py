@@ -18,6 +18,8 @@ class Ecall(Continuation):
         self.expr = expr
         self.env = env
 
+
+    #Problem here (we are not using a closure)!!!!!!!!!!!!!!!
     def apply(self, val, scope):
         """
         :param val: arg

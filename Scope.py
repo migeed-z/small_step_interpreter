@@ -32,23 +32,13 @@ class Scope:
         """
         if self.defs:
             name = self.defs[0]
+            # print("key & name %s %s" % (key, name))
             val = self.defs[1]
             old_self = self.defs[2]
             if key == name:
                 return val
             else:
                 return old_self.get(key)
-
-    def init_defs(self):
-        add = self.extend('+', ast.Lambda(args=ast.arguments(args=[ast.arg(arg='x')]),
-                                      body=ast.Lambda(args=ast.arguments(args=[ast.arg(arg='y')]), body=ast.BinOp(left=ast.Name(id='x',
-                                      ctx=ast.Load()), op=ast.Add(), right=ast.Name(id='y', ctx=ast.Load())))))
-        # sub = add.extend('-', lambda x: lambda y: x + y)
-        # mul = sub.extend('*', lambda x: lambda y: x + y)
-        # div = mul.extend('/', lambda x: lambda y: x + y)
-        # exp = div.extend('^', lambda x: lambda y: x ** y)
-        return add
-
 
     def __eq__(self, other):
         return isinstance(other, Scope) and self.defs == other.defs
