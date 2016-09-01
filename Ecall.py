@@ -24,6 +24,6 @@ class Ecall(Continuation):
         """
         :param val: arg
         """
-        scope = self.env.extend(self.expr.args.args[0].arg, val)
-        return self.expr.body, scope, self.k
+        new_scope = self.env.extend(self.expr.args.args[0].arg, (val,scope))
+        return self.expr.body, new_scope, self.k
 

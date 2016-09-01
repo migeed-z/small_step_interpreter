@@ -42,11 +42,8 @@ def step(expr, env, cont):
     #Var
     elif isinstance(expr, Name):
         name = expr.id
-        val = env.get(name)
-        if isinstance(val, Closure):
-            return val.lambda_expr, val.scope, cont
-        else:
-            return val, env, cont
+        (val,scope) = env.get(name)
+        return val, scope, cont
 
     #Lambda
     elif isinstance(expr, Lambda):
