@@ -32,7 +32,6 @@ class Scope:
         """
         if self.defs:
             name = self.defs[0]
-            # print("key & name %s %s" % (key, name))
             val = self.defs[1]
             old_self = self.defs[2]
             if key == name:

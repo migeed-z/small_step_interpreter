@@ -30,8 +30,6 @@ def step(expr, env, cont):
     :return: (Expr, Scope, Continuation)
     """
 
-    print(dump(expr))
-
     #Num & Bool
     if isinstance(expr, Num) or isinstance(expr, NameConstant):
         if not isinstance(cont, Done):
@@ -77,6 +75,5 @@ def step(expr, env, cont):
         return test, env, Eif(body, orelse, env, cont)
 
     else:
-        print("error expr %s" % dump(expr))
         raise InterpreterError("Not a valid program")
 
