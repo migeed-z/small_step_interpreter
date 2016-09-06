@@ -65,15 +65,15 @@ class TestStep(unittest.TestCase):
         self.assertEqual(eif.then.n, 1)
         self.assertEqual(eif.el.n, 3)
 
-    def test_assign(self):
-        asn_expr = Assign(targets=[Name(id='x')], value=Num(n=5))
-        s = Scope([])
-        k = Done()
-        val, env, k = step(asn_expr, s, k)
-
-        val2, env2, k2 = step(val, env, k)
-        self.assertEqual(env2.get('x')[0].n, 5)
-
+    # def test_assign(self):
+    #     asn_expr = Assign(targets=[Name(id='x')], value=Num(n=5))
+    #     s = Scope([])
+    #     k = Done()
+    #     val, env, k = step(asn_expr, s, k)
+    #
+    #     val2, env2, k2 = step(val, env, k)
+    #     self.assertEqual(env2.get('x')[0].n, 5)
+    #
 
 if __name__ == '__main__':
     unittest.main()

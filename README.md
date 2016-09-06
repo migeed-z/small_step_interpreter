@@ -9,6 +9,7 @@ An interpreter that evaluates a small language written in python syntax.
  - lambda param: body - Lambda Expression
  - R - Number
  - True/ False - Boolean
+ - var = expr  - Assign
 
 **Expr**:
 - Expr if Expr else Expr
@@ -17,6 +18,9 @@ An interpreter that evaluates a small language written in python syntax.
 - lambda: arg Expr
 - Numerical Expr
 - Constant
+
+**Def**
+- Assign
 
 **Token**
 A token is a sequence of characters. 
