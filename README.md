@@ -36,9 +36,9 @@ A token is a sequence of characters.
 - /
 
 **Values**:
-- Python Bool
-- Python Num
-- Python Lambda
+- Bool
+- Num
+- Lambda
 
 
 

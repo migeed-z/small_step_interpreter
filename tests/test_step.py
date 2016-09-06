@@ -29,10 +29,10 @@ class TestStep(unittest.TestCase):
     def test_variable(self):
         var_expr = Name(id='x')
         env = Scope([])
-        new_env = env.extend('x', Num(3))
+        new_env = env.extend('x',(Num(3), env))
         k = Done()
-        val = step(var_expr, new_env, k)[0]
-        self.assertEqual(val.n, 3)
+        val = step(var_expr, new_env, k)
+        self.assertEqual(val[0].n, 3)
 
     def test_lambda(self):
         lamb_expr = Lambda(args=ast.arguments(args=[ast.arg(arg='x')]), body=Num(n=3))
@@ -64,6 +64,15 @@ class TestStep(unittest.TestCase):
         self.assertEqual(val.n, 2)
         self.assertEqual(eif.then.n, 1)
         self.assertEqual(eif.el.n, 3)
+
+    def test_assign(self):
+        asn_expr = Assign(targets=[Name(id='x')], value=Num(n=5))
+        s = Scope([])
+        k = Done()
+        val, env, k = step(asn_expr, s, k)
+
+        val2, env2, k2 = step(val, env, k)
+        self.assertEqual(env2.get('x')[0].n, 5)
 
 
 if __name__ == '__main__':

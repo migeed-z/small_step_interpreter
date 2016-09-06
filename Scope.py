@@ -1,4 +1,5 @@
 import ast
+from InterpreterError import InterpreterError
 
 class Scope:
     """
@@ -21,7 +22,7 @@ class Scope:
         :return: New scope with extended definitions
         """
         if not isinstance(name, str) :
-            raise BSLError('name field must be a string')
+            raise InterpreterError('name field must be a string')
         return Scope((name, val, self))
 
     def get(self, key):
