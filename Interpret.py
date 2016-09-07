@@ -15,6 +15,7 @@ from Step import step
 from ast import ImportFrom, Expr, dump
 from Done import Done
 from InterpreterError import InterpreterError
+from Transform import transform
 
 def interpret(expr):
     """
@@ -23,24 +24,24 @@ def interpret(expr):
     :return: Value
     """
 
-    nodes = expr.body
+    nodes = transform(expr.body)
     env = Scope(())
     cont = Done()
 
-    vals = []
+    final_val = None
 
     for node in nodes:
-        print(node)
         if isinstance(node, Expr):
             val = node.value
+            while not is_value(val) or not isinstance(cont, Done):
+                val, env, cont = step(val, env, cont)
+
+            final_val = val
+
         else:
             raise InterpreterError('Not a valid python program')
 
-        while not is_value(val) or not isinstance(cont, Done):
-            val, env, cont = step(val, env, cont)
-
-        vals.append(val)
-    return vals
+    return final_val
 
 def is_value(node):
     return  isinstance(node, Num)\

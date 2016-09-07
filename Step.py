@@ -66,12 +66,12 @@ def step(expr, env, cont):
         orelse = expr.orelse
 
         return test, env, Eif(body, orelse, env, cont)
-    #
-    # #Assign
-    # elif isinstance(expr, Assign):
-    #     val = expr.value
-    #     target = expr.targets[0]
-    #     return val, env, EAssign(target, env, cont)
+
+    #Assign
+    elif isinstance(expr, Assign):
+        val = expr.value
+        target = expr.targets[0]
+        return val, env, EAssign(target, env, cont)
 
     else:
         raise InterpreterError("Not a valid program")

@@ -9,6 +9,7 @@ import ast
 from Interpret import interpret
 import sys
 
+
 def main(argv):
     if len(argv) < 1:
         print('Bye!')
@@ -18,8 +19,8 @@ def main(argv):
 def read(file_name):
     node = parse_ast(file_name)
     res = interpret(node)
-    for r in res:
-        print(unwrap(r))
+
+    return print(unwrap(res))
 
 def unwrap(node):
     """
@@ -39,8 +40,8 @@ def parse_ast(file_name):
         return ast.parse(f.read(), filename='<unknown>', mode='exec')
 
 
-# if __name__ == "__main__":
-#    main(sys.argv[1:])
+if __name__ == "__main__":
+   main(sys.argv[1:])
 
 
-print(ast.dump(parse_ast('sample_input.py')))
+# print(ast.dump(parse_ast('sample_input.py')))
