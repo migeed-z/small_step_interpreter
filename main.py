@@ -1,47 +1,24 @@
-"""
-Read_and_Parse.py
-name of python/text file -> expr
+from Read_and_Parse import read
 
-Receives a file name from and produces a python AST.
-"""
+def main():
+    test_list = [("assign", 3), ("python", 9), ("recur", 1)]
+    run_batch(test_list)
 
-import ast
-from Interpret import interpret
-import sys
-
-
-def main(argv):
-    if len(argv) < 1:
-        print('Bye!')
-        exit()
-    return (read(argv[0]))
-
-def read(file_name):
-    node = parse_ast(file_name)
-    res = interpret(node)
-
-    return print(unwrap(res))
-
-def unwrap(node):
-    """
-    Unwraps python value from given node.
-    :param node: AST
-    :return: U bool num
-    """
-    if isinstance(node, ast.NameConstant):
-        return node.value
-    elif isinstance(node, ast.Num):
-        return node.n
-    elif isinstance(node, ast.Lambda):
-        return node
-
-def parse_ast(file_name):
-    with open(file_name, "r") as f:
-        return ast.parse(f.read(), filename='<unknown>', mode='exec')
-
+def run_batch(test_list):
+    print("batch mode start")
+    tests_passed = True
+    res = 279923
+    for test in test_list:
+        (name, num) = test
+        for n in range(1, num+1):
+            f='programs/' + str(name) + str(n)+ '.py'
+            new_res = read(f)
+            if res != new_res:
+                tests_passed = False
+                print(f + "failed, program returns" + str(new_res))
+    if tests_passed:
+        print("All tests passed!")
+    print("batch mode end")
 
 if __name__ == "__main__":
-   main(sys.argv[1:])
-
-
-# print(ast.dump(parse_ast('sample_input.py')))
+    main()

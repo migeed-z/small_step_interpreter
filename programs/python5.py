@@ -1,1 +1,1 @@
-lambda x : lambda y: x
+(lambda x : lambda y: x)(279923)(1)

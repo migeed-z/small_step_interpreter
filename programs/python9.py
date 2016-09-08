@@ -1,1 +1,1 @@
-(lambda z: z(3)(3))(lambda x: (lambda y: x == y))
+279923 if (lambda z: z(3)(3))(lambda x: (lambda y: x == y)) else 0
